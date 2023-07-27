@@ -1,0 +1,8 @@
+# ansible galaxy requirements
+#
+# See: https://docs.ansible.com/ansible/latest/galaxy/user_guide.html
+# Use: ansible-galaxy install -r requirements.yml --force
+
+collections:
+  - source: ./ansible
+    type: dir
