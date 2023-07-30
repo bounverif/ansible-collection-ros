@@ -1,0 +1,15 @@
+---
+- name: Build Autoware and dependencies
+  hosts: localhost
+  connection: local
+  vars:
+    ros_distro: humble
+    ros_distro_type: desktop
+    autoware_version: main
+    ros_workspace: /tmp/autoware
+    ros_src: "{{ ros_workspace }}/src"
+    ros_install_dir: "/opt/autoware/{{ ros_distro }}"
+
+  roles:
+    - role: bounverif.ros.repositories
+

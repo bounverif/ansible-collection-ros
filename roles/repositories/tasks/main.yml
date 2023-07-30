@@ -1,0 +1,6 @@
+- name: install-git-contents
+  ansible.builtin.git:
+    repo: "{{ item.value.url }}"
+    dest: "{{ ros_src }}/{{ item.key }}"
+    version: "{{ item.value.version }}"
+  loop: "{{ ros_repos.repositories | dict2items }}" 
