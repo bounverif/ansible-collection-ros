@@ -1,0 +1,22 @@
+- name: Ensure dependencies installed
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    name: python3-vcstool
+  when: ros_install_dependencies is true
+
+- name: Ensure the source directory exists
+  ansible.builtin.file:
+    path: "{{ vcstool_import_source_dir }}"
+    state: directory
+
+- name: Render the command template
+  ansible.builtin.set_fact: 
+    vcstool_command: "{{ lookup('ansible.builtin.template', 'templates/vcstool_import.sh.j2' ) | regex_replace('\\s+', ' ') | trim }}"
+
+- name: Clone repositories
+  ansible.builtin.shell: "{{ vcstool_command }}"
+
+- name: Debug the command
+  ansible.builtin.debug:
+    command: "{{ vcstool_command }}"
