@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ros:humble
 
 ENV LC_ALL="en_US.UTF-8"
 ENV LC_CTYPE="en_US.UTF-8"
@@ -26,3 +26,8 @@ RUN groupadd bouncmpe -g 1000 \
 
 USER bouncmpe
 WORKDIR /home/bouncmpe
+
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install --user ansible ansible-lint
+
+ENV PATH=/home/bouncmpe/.local/bin:$PATH

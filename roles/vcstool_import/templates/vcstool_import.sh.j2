@@ -1,0 +1,7 @@
+vcs import {{ vcstool_import_source_dir }}
+  --input {{ vcstool_import_input_path }}
+  {% if vcstool_import_recursive %}--recursive{% endif %}
+  {% if vcstool_import_shallow %}--shallow{% endif %}
+  {% if vcstool_import_force %}--force{% endif %}
+  {% if vcstool_import_skip_existing %}--skip-existing{% endif %}
+  {% if vcstool_import_retry is defined %}--retry {{ vcstool_import_retry }}{% endif %}

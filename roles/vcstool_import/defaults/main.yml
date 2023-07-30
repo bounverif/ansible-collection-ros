@@ -1,0 +1,7 @@
+vcstool_import_input_path: "{{ ros_repositories_path | default('./repositories.yml') }}"
+vcstool_import_source_dir: "{{ ros_source_dir | default('./src') }}"
+vcstool_import_recursive: false
+vcstool_import_shallow: false
+vcstool_import_force: false
+vcstool_import_skip_existing: false
+vcstool_import_retry: 2
