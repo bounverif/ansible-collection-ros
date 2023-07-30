@@ -9,14 +9,23 @@
   ansible.builtin.file:
     path: "{{ vcstool_import_source_dir }}"
     state: directory
+    mode: "{{ vcstool_import_source_dir_mode | default('0755') }}"
 
 - name: Render the command template
-  ansible.builtin.set_fact: 
-    vcstool_command: "{{ lookup('ansible.builtin.template', 'templates/vcstool_import.sh.j2' ) | regex_replace('\\s+', ' ') | trim }}"
+  ansible.builtin.set_fact:
+    vcstool_command: "{{ lookup('ansible.builtin.template', 'templates/vcstool_import.sh.j2') | regex_replace('\\s+', ' ') | trim }}"
 
 - name: Clone repositories
-  ansible.builtin.shell: "{{ vcstool_command }}"
+  ansible.builtin.command:
+    cmd: "{{ vcstool_command | quote }}"
+  register: vcstool_command_result
+  changed_when: >-
+    'Cloning' in vcstool_command_result.stdout or
+    'Switched' in vcstool_command_result.stdout or
+    'switching' in vcstool_command_result.stdout
+  failed_when: vcstool_command_result.rc != 0
 
 - name: Debug the command
   ansible.builtin.debug:
-    command: "{{ vcstool_command }}"
+    msg: "{{ vcstool_command_result }}"
+    verbosity: 3
