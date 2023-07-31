@@ -4,5 +4,5 @@
 # Use: ansible-galaxy install -r requirements.yml --force
 
 collections:
-  - source: ./ansible
+  - source: ./
     type: dir

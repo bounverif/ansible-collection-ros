@@ -1,0 +1,21 @@
+- name: local variable definitions
+  ansible.builtin.set_fact:
+   ros_repos_paths: []
+   ros_repos_dicts: []
+   ros_repos: {}
+   repositories_as_dict: {}
+- name: create variable paths
+  ansible.builtin.set_fact:
+   ros_repos_paths: "{{ ros_repos_paths + [ ros_repos_directory + item ] }}"
+  loop: "{{ ros_repos_file_name }}"
+- name: repos to dict
+  ansible.builtin.set_fact:
+   ros_repos_dicts: "{{ ros_repos_dicts + [ lookup('file', item) | ansible.builtin.from_yaml ] }}"
+  loop: "{{ ros_repos_paths }}"
+- name: combining dicts
+  ansible.builtin.set_fact:
+   ros_repos: "{{ ros_repos | ansible.builtin.combine(item, recursive=true) }}"
+  loop: "{{ ros_repos_dicts }}"
+- name: renaming main field
+  ansible.builtin.set_fact:
+   repositories_as_dict: "{{ ros_repos.repositories | dict2items }}"

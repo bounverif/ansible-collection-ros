@@ -1,2 +1,3 @@
-ros_repos_path: "{{ lookup('ansible.builtin.env', 'ROS_WORKSPACE', default='../examples/') }}"
-ros_repos: "{{ lookup('file', ros_repos_path + 'repo.repos') | ansible.builtin.from_yaml }}" 
+ros_repos_directory: "{{ lookup('ansible.builtin.env', 'ROS_WORKSPACE', default='../examples/') }}"
+ros_repos_file_name:
+ - "repo.repos"
