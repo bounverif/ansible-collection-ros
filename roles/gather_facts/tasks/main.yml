@@ -1,0 +1,3 @@
+- name: Get all ROS environment variables
+  ansible.builtin.include_tasks: env.yml
+  when: ros_gather_facts is true
