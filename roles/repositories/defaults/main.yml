@@ -1,0 +1,2 @@
+ros_repos_directory: "{{ lookup('ansible.builtin.env', 'ROS_WORKSPACE', default='') }}"
+repositories: {}
