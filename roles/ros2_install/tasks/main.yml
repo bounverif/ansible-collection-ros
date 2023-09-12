@@ -1,0 +1,52 @@
+- name: Update Cache and Upgrade
+  become: true
+  ansible.builtin.apt:
+    upgrade: "yes"
+    update_cache: true
+
+- name: Install software-properties-common Package
+  become: true
+  ansible.builtin.apt:
+    name: software-properties-common
+
+# TODO Reimplement using apt-repository module.
+- name: ROS2 Universe Repositories Addition
+  become: true
+  ansible.builtin.shell:
+    cmd: add-apt-repository universe
+
+- name: Install curl
+  become: true
+  ansible.builtin.apt:
+    name: curl
+
+- name: Add ROS2 GPG-Key
+  become: true
+  ansible.builtin.uri:
+    dest: /usr/share/keyrings/ros-archive-keyring.gpg
+    url: https://raw.githubusercontent.com/ros/rosdistro/master/ros.key
+
+- name: Add the Repository to Sources List
+  become: true
+  ansible.builtin.shell:
+    cmd: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+- name: Update and Upgrade
+  become: true
+  ansible.builtin.apt:
+    upgrade: "yes"
+    update_cache: true
+
+- name: Install Packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  loop: "{{ package_names }}"
+
+- name: Add path to .bashrc
+  ansible.builtin.lineinfile:
+    dest: ~/.bashrc
+    line: source /opt/ros/{{ rosdistro }}/setup.bash
+    state: present
+    create: true
+    mode: 0644
