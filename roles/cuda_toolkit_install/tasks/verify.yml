@@ -1,0 +1,44 @@
+# Manually Verify Supported Version of Linux and Verify Correct Kernel Headers and
+# Development Packages at https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
+
+# Verify gcc
+- name: Verify gcc
+  ansible.builtin.shell:
+    "command -v gcc >/dev/null 2>&1"
+  register: gcc_command
+  changed_when: false
+  ignore_errors: true
+
+- name: Install gcc
+  become: true
+  ansible.builtin.apt:
+    force_apt_get: true
+    name: gcc
+  when: gcc_command.failed
+
+# Verify CUDA-capable GPU (checks for only existence of GPU. Spesific GPUs can be checked at https://developer.nvidia.com/cuda-gpus)
+- name: Verify lspci
+  ansible.builtin.shell:
+    "command -v lspci >/dev/null 2>&1"
+  register: lspci_command
+  changed_when: false
+  ignore_errors: true
+
+- name: Install pciutils
+  become: true
+  ansible.builtin.apt:
+    force_apt_get: true
+    name: pciutils
+  when: lspci_command.failed
+
+- name: Get NVIDIA-DEVICES
+  ansible.builtin.shell:
+    "set -o pipefail && lspci | grep -i nvidia"
+  args:
+    executable: /usr/bin/bash
+  changed_when: false
+  register: nvidia_devices
+
+- name: Assign system_verified Variable
+  ansible.builtin.set_fact:
+    system_verified: "{{ nvidia_devices != '' }}"

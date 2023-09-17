@@ -1,0 +1,17 @@
+# system architecture
+- name: Assign system_architecture Variable for x86_64
+  ansible.builtin.set_fact:
+    system_architecture: "x86_64"
+  when: hostvars[inventory_hostname].ansible_machine == 'x86_64'
+
+- name: Assign system_architecture Variable for arm
+  ansible.builtin.set_fact:
+    system_architecture: "lbsa"
+  when: hostvars[inventory_hostname].ansible_machine != 'x86_64'
+
+# linux_version
+- name: Assign linux_version Variable
+  ansible.builtin.set_fact:
+    linux_version: >-
+      {{ hostvars[inventory_hostname].ansible_distribution | lower ~
+      hostvars[inventory_hostname].ansible_distribution_version | replace('.','') }}

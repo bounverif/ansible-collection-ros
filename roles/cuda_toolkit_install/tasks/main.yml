@@ -1,0 +1,10 @@
+---
+- name: Call set_system_variables.yml
+  ansible.builtin.include_tasks: set_system_variables.yml
+
+- name: Call verify.yml
+  ansible.builtin.include_tasks: verify.yml
+
+- name: Call install.yml
+  ansible.builtin.include_tasks: install.yml
+  when: system_verified

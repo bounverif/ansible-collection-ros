@@ -1,0 +1,11 @@
+system_verified: false
+
+linux_version:
+
+system_architecture:
+
+cuda_keyring_url: https://developer.download.nvidia.com/compute/cuda/repos/linux_version/system_architecture/cuda-keyring_1.1-1_all.deb
+
+cuda_keyring_dest: /home/cuda-keyring_1.1-1_all.deb
+
+toolkits: []
