@@ -1,17 +1,17 @@
 # system architecture
-- name: Assign system_architecture Variable for x86_64
+- name: Set cuda_toolkit_install_arch for x86_64 as fact
   ansible.builtin.set_fact:
-    system_architecture: "x86_64"
+    cuda_toolkit_install_arch: "x86_64"
   when: hostvars[inventory_hostname].ansible_machine == 'x86_64'
 
-- name: Assign system_architecture Variable for arm
+- name: Set cuda_toolkit_install_arch for arm as fact
   ansible.builtin.set_fact:
-    system_architecture: "lbsa"
-  when: hostvars[inventory_hostname].ansible_machine != 'x86_64'
+    cuda_toolkit_install_arch: "sbsa"
+  when: hostvars[inventory_hostname].ansible_machine == 'aarch64'
 
 # linux_version
-- name: Assign linux_version Variable
+- name: Set cuda_toolkit_install_distribution as fact
   ansible.builtin.set_fact:
-    linux_version: >-
+    cuda_toolkit_install_distribution: >-
       {{ hostvars[inventory_hostname].ansible_distribution | lower ~
       hostvars[inventory_hostname].ansible_distribution_version | replace('.','') }}

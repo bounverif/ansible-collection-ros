@@ -7,4 +7,4 @@
 
 - name: Call install.yml
   ansible.builtin.include_tasks: install.yml
-  when: system_verified
+  when: cuda_toolkit_install_verify_system

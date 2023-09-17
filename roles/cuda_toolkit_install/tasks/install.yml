@@ -1,19 +1,7 @@
-- name: Get cuda-keyring File
-  become: true
-  ansible.builtin.get_url:
-    url: "{{ cuda_keyring_url | replace('linux_version', linux_version) | replace('system_architecture', system_architecture) }}"
-    dest: "{{ cuda_keyring_dest }}"
-    mode: '0440'
-
 - name: Install cuda-keyring
   become: true
   ansible.builtin.apt:
-    deb: "{{ cuda_keyring_dest }}"
-
-- name: Remove cuda-keyring File
-  ansible.builtin.file:
-    path: "{{ cuda_keyring_dest }}"
-    state: absent
+    deb: "{{ cuda_keyring_url }}"
 
 - name: Update apt-get
   ansible.builtin.apt:
@@ -26,4 +14,4 @@
   ansible.builtin.apt:
     force_apt_get: true
     name: "{{ item }}"
-  loop: "{{ toolkits }}"
+  loop: "{{ cuda_toolkit_install_packages }}"

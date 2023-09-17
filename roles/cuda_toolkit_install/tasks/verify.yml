@@ -9,13 +9,6 @@
   changed_when: false
   ignore_errors: true
 
-- name: Install gcc
-  become: true
-  ansible.builtin.apt:
-    force_apt_get: true
-    name: gcc
-  when: gcc_command.failed
-
 # Verify CUDA-capable GPU (checks for only existence of GPU. Spesific GPUs can be checked at https://developer.nvidia.com/cuda-gpus)
 - name: Verify lspci
   ansible.builtin.shell:
@@ -39,6 +32,6 @@
   changed_when: false
   register: nvidia_devices
 
-- name: Assign system_verified Variable
+- name: Assign cuda_toolkit_install_verify_system variable
   ansible.builtin.set_fact:
-    system_verified: "{{ nvidia_devices != '' }}"
+    cuda_toolkit_install_verify_system: "{{ nvidia_devices != '' and not gcc_command.failed }}"
