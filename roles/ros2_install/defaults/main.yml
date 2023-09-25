@@ -1,0 +1,4 @@
+package_names:
+ - ros-humble-desktop
+ - ros-humble-ros-base
+ - ros-dev-tools
