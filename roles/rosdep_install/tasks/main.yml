@@ -5,8 +5,9 @@
     creates: /etc/ros/rosdep/sources.list.d/20-default.list
 
 - name: Rosdep Update
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: rosdep update
+  changed_when: true
 
 - name: Rosdep Install
   ansible.builtin.shell:
@@ -14,3 +15,4 @@
   args:
     executable: /bin/bash
     chdir: "{{ ros_source_dir }}"
+  changed_when: true
