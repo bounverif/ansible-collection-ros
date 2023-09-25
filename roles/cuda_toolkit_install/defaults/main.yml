@@ -1,6 +1,6 @@
 cuda_toolkit_install_verify_system: false
 
-cuda_keyring_url: >-
-  https://developer.download.nvidia.com/compute/cuda/repos/{{ cuda_toolkit_install_distribution }}/{{ cuda_toolkit_install_arch }}/cuda-keyring_1.1-1_all.deb
+cuda_keyring_url_base: >-
+  https://developer.download.nvidia.com/compute/cuda/repos/{{ cuda_toolkit_install_distribution }}/{{ cuda_toolkit_install_arch }}
 
 cuda_toolkit_install_packages: []

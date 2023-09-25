@@ -9,6 +9,11 @@
   changed_when: false
   ignore_errors: true
 
+- name: 'Check gcc installed'
+  ansible.builtin.fail:
+    msg: "gcc should be installed"
+  when: "gcc_command.failed"
+
 # Verify CUDA-capable GPU (checks for only existence of GPU. Spesific GPUs can be checked at https://developer.nvidia.com/cuda-gpus)
 - name: Verify lspci
   ansible.builtin.shell:
@@ -17,20 +22,32 @@
   changed_when: false
   ignore_errors: true
 
-- name: Install pciutils
+- name: Install pciutils for Debian
   become: true
   ansible.builtin.apt:
     force_apt_get: true
     name: pciutils
-  when: lspci_command.failed
+  when: lspci_command.failed and hostvars[inventory_hostname].ansible_os_family == "Debian"
+
+- name: Install pciutils for OpenSuse
+  become: true
+  zypper: # noqa: fqcn[action]
+    name: pciutils
+    state: present
+  when: lspci_command.failed and hostvars[inventory_hostname].ansible_os_family == "Suse"
 
 - name: Get NVIDIA-DEVICES
   ansible.builtin.shell:
     "set -o pipefail && lspci | grep -i nvidia"
   args:
-    executable: /usr/bin/bash
+    executable: bash
   changed_when: false
   register: nvidia_devices
+
+- name: 'Check any available NVIDIA-DEVICE'
+  ansible.builtin.fail:
+    msg: "There should be available NVIDIA-DEVICE"
+  when: " nvidia_devices == '' "
 
 - name: Assign cuda_toolkit_install_verify_system variable
   ansible.builtin.set_fact:
