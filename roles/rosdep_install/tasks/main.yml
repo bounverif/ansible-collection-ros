@@ -1,0 +1,18 @@
+- name: Rosdep Initialization
+  become: true
+  ansible.builtin.command:
+    cmd: rosdep init
+    creates: /etc/ros/rosdep/sources.list.d/20-default.list
+
+- name: Rosdep Update
+  ansible.builtin.command:
+    cmd: rosdep update
+  changed_when: true
+
+- name: Rosdep Install
+  ansible.builtin.shell:
+    cmd: "source /opt/ros/humble/setup.bash && rosdep install --from-paths . --ignore-src --rosdistro humble -r -y"
+  args:
+    executable: /bin/bash
+    chdir: "{{ ros_source_dir }}"
+  changed_when: true
