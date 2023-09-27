@@ -3,7 +3,7 @@ REPOSITORIES
 
 Reads repos file contents similar to existing VCS tool, downloads the repositories in indicated repos file.
 
-[![Ansible Lint](https://github.com/bounverif/ansible-collection-ros/actions/workflows/ansible-lint.yml/badge.svg)]
+![Ansible Lint](https://github.com/bounverif/ansible-collection-ros/actions/workflows/ansible-lint.yml/badge.svg)
 
 Requirements
 ------------
