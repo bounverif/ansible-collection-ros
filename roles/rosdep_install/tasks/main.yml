@@ -2,7 +2,8 @@
   become: true
   ansible.builtin.command:
     cmd: rosdep init
-    creates: /etc/ros/rosdep/sources.list.d/20-default.list
+    creates: "{{ rosdep_init_path }}"
+  when: init_rosdep == true
 
 - name: Rosdep Update
   ansible.builtin.command:
