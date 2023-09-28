@@ -3,7 +3,7 @@
   ansible.builtin.command:
     cmd: rosdep init
     creates: "{{ rosdep_init_path }}"
-  when: init_rosdep == true
+  when: init_rosdep
 
 - name: Rosdep Update
   ansible.builtin.command:
