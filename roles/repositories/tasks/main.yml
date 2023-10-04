@@ -1,7 +1,7 @@
 - name: Install Repositories - From File
   ansible.builtin.include_tasks: from_file.yml
-  when: read_repositories_from_file
+  when: repositories_file_names is defined
 
 - name: Install Repositories - From Variable
   ansible.builtin.include_tasks: from_variable.yml
-  when: not read_repositories_from_file
+  when: repositories_file_names is undefined
