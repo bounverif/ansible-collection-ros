@@ -1,14 +1,14 @@
 - name: Create Full Paths
   ansible.builtin.set_fact:
-    repos_file_list: "{{ repos_file_list + [([repos_directory, item] | path_join) | string] }}"
-  loop: "{{ repositories_file_names }}"
+    repositories_file_path_list: "{{ repositories_file_path_list + [([repositories_source_dir, item] | path_join) | string] }}"
+  loop: "{{ repositories_files }}"
 
 - name: Load Repos Files
   ansible.builtin.include_vars:
     file: "{{ item }}"
     hash_behaviour: "merge"
     name: repositories
-  loop: "{{ repos_file_list }}"
+  loop: "{{ repositories_file_path_list }}"
 
 - name: Repositories Variable Reordering
   ansible.builtin.set_fact:
@@ -17,7 +17,7 @@
 - name: Clone Repositories
   ansible.builtin.git:
     repo: "{{ item.value.repo | default(item.value.url) }}"
-    dest: "{{ item.value.dest | default(([download_dir, item.key] | path_join)) }}"
+    dest: "{{ item.value.dest | default(([repositories_download_dir, item.key] | path_join)) }}"
     version: "{{ item.value.version | default(omit) }}"
     depth: "{{ item.value.depth | default(omit) }}"
     single_branch: "{{ item.value.single_branch | default(omit) }}"

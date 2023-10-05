@@ -12,7 +12,7 @@
 
 - name: Rosdep Install
   ansible.builtin.shell:
-    cmd: "source /opt/ros/humble/setup.bash && rosdep install --from-paths . --ignore-src --rosdistro humble -r -y"
+    cmd: "source /opt/ros/{{ ros_distro }}/setup.bash && rosdep install --from-paths . --ignore-src --rosdistro {{ ros_distro }} -r -y"
   args:
     executable: /bin/bash
     chdir: "{{ ros_source_dir }}"
