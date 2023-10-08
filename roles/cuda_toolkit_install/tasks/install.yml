@@ -15,6 +15,7 @@
   when: hostvars[inventory_hostname].ansible_os_family == "Suse"
 
 - name: Update apt-get
+  become: true
   ansible.builtin.apt:
     update_cache: true
     force_apt_get: true
