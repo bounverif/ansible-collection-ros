@@ -24,7 +24,7 @@ These variables must be defined according to the usage to use this role. Definit
 | Variable                | Required | Default      | Choices                   | Comments                                 |
 |-------------------------|----------|--------------|---------------------------|------------------------------------------|
 | repositories_source_dir         | yes      | `no default` | `directory path`          | A directory name. Required when read_repositories_from_file is set `true`. |
-| repositories_download_dir            | yes      | `no default` | `directory path`          | Indicates where to download repositories if `dest` parameter on git parameter is not set. |
+| repositories_download_dir            | yes      | `no default` | `directory path`          | Indicates a prefix path where to download repositories, which will be joined with the path on `key` value on repos file. Used when `dest` parameter on git parameter is not set. |
 | repositories            | yes      | `no default` | `list of dictionaries`    | List of dictionaries with fields named as git builtin. Do not define if `repositories_files` set. |
 | repositories_files | yes      | `no default` | `list of file names`      | Names of files will be read. If defined, then the role will read files instead of `repositories` list.|
 
