@@ -1,0 +1,18 @@
+- name: Install cuda-keyring for Debian
+  become: true
+  ansible.builtin.apt:
+    deb: '{{ cuda_keyring_url_base }}/{{ cuda_keyring_file_name }}'
+
+- name: Update apt-get
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    force_apt_get: true
+    cache_valid_time: 0
+
+- name: Install cuda-toolkits for Debian
+  become: true
+  ansible.builtin.apt:
+    force_apt_get: true
+    name: "{{ item }}"
+  loop: "{{ cuda_toolkit_install_packages }}"

@@ -1,0 +1,15 @@
+- name: Install cuda-keyring for OpenSuse
+  become: true
+  zypper_repository: # noqa: fqcn[action]
+    repo: "{{ cuda_keyring_url_base }}/"
+    name: "{{ cuda_keyring_file_name }}"
+    state: present
+    runrefresh: true
+    auto_import_keys: true
+
+- name: Install cuda-toolkits for OpenSuse
+  become: true
+  zypper: # noqa: fqcn[action]
+    force: true
+    name: "{{ item }}"
+  loop: "{{ cuda_toolkit_install_packages }}"

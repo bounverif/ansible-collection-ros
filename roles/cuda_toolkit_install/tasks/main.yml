@@ -5,6 +5,10 @@
 - name: Call verify.yml
   ansible.builtin.include_tasks: verify.yml
 
-- name: Call install.yml
+- name: Call install.yml - Debian
   ansible.builtin.include_tasks: install.yml
-  when: cuda_toolkit_install_verify_system
+  when: cuda_toolkit_install_verify_system and hostvars[inventory_hostname].ansible_os_family == "Debian"
+
+- name: Call install.yml - Suse
+  ansible.builtin.include_tasks: install.yml
+  when: cuda_toolkit_install_verify_system and hostvars[inventory_hostname].ansible_os_family == "Suse"
