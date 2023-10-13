@@ -1,8 +1,7 @@
 - name: Install cuda-keyring for OpenSuse
   become: true
   zypper_repository: # noqa: fqcn[action]
-    repo: "{{ cuda_keyring_url_base }}/"
-    name: "{{ cuda_keyring_file_name }}"
+    repo: "{{ [cuda_keyring_url_base, cuda_keyring_file_name] | path_join }}"
     state: present
     runrefresh: true
     auto_import_keys: true
