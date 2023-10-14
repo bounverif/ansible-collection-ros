@@ -1,45 +1,68 @@
 REPOSITORIES
 =========
 
-Reads repos file contents similar to existing VCS tool, downloads the repositories in indicated repos file.
+Reads repos file contents similar to existing VCS tool, downloads the repositories in indicated repos file. Downloads repositories from dictionary lists.
 
 ![Ansible Lint](https://github.com/bounverif/ansible-collection-ros/actions/workflows/ansible-lint.yml/badge.svg)
 
 Requirements
 ------------
 
-At least one repos file is required. The directory including those repos files must be given by assigning `ros_repos_directory` variable to a path pointing a directory.
+A valid path to a directory in which includes files written in `repos` format, or a valid list constructed by dictionaries which have `ansible.builtin.git` module's parameters. 
 
+For file reading define `repositories_source_dir` which is a string of a relative or absolute directory path, that directory can also be defined by defining `ROS_WORKSPACE` environment variable. Define `repositories_files` that is a list of strings constructed by file names. Do not define any `repositories` named list or variable. Define `repositories_download_dir` as a directory, if the repository is not defined a specific `dest` value, then the files will be downloaded onto `repositories_download_dir`.
+
+For variable reading define a `repositories` list variable which consists of dictionaries that have parameters of `ansible.builtin.git` module. Do not define the variable `repositories_files`.
+
+Additionally, for all cases, do not define a variable named `repositories_file_path_list`, this is a meta-variable reserved for calculations.
 
 Role Variables
 --------------
 
-Two global variables must be defined to use this role. Definitions and required information on below.
+These variables must be defined according to the usage to use this role. Definitions and required information on below.
 
 | Variable                | Required | Default      | Choices                   | Comments                                 |
 |-------------------------|----------|--------------|---------------------------|------------------------------------------|
-| ros_repos_directory     | yes      | `no default` | `directory path`          | Must end with / character.               |
-| ros_source_dir          | yes      | `no default` | `directory path`          | Indicates where to download repositories.|
+| repositories_source_dir         | yes      | `no default` | `directory path`          | A directory name. Required when read_repositories_from_file is set `true`. |
+| repositories_download_dir            | yes      | `no default` | `directory path`          | Indicates a prefix path where to download repositories, which will be joined with the path on `key` value on repos file. Used when `dest` parameter on git parameter is not set. |
+| repositories            | yes      | `no default` | `list of dictionaries`    | List of dictionaries with fields named as git builtin. Do not define if `repositories_files` set. |
+| repositories_files | yes      | `no default` | `list of file names`      | Names of files will be read. If defined, then the role will read files instead of `repositories` list.|
+
 
 Dependencies
 ------------
 
-This role does not require any other roles. All the required variables should be defined by user, for example in an Ansible playbook.
+This role does not require any other roles. All the required variables should be defined by user in a proper file, for example in an Ansible playbook.
 
 Example Playbook
 ----------------
 
-An example playbook with only necessary values to run this role on localhost. For this case the directory to download repositories is `"/tmp/ros/src/"` and repos files are in `"/tmp/ros/examples/sample_repos_file/"`
+An example playbook using file read feature, runs this role on localhost. For this case the directory to download repositories is `"/tmp/ros/src/"` and repos files are in `"/tmp/ros/examples/sample_repos_file/"`. In this example file names are `file1.repos` and `file2.yaml`.
 
 ```
 ---
-- name: Build Autoware and dependencies
+- name: Repositories Role - File Read
   hosts: localhost
-  #no_log: true
   connection: local
   vars:
-    ros_source_dir: "/tmp/ros/src"
-    ros_repos_directory: "/tmp/ros/examples/sample_repos_file/"
+    repositories_source_dir: "/tmp/ros/examples/sample_repos_file/" 
+    repositories_download_dir: "/tmp/ros/src"
+    repositories_files:
+      - file1.repos
+      - file2.yaml
+    
+  roles:
+    - role: bounverif.ros.repositories
+```
+
+```
+- name: Repositories Role - Variable Read
+  hosts: localhost
+  connection: local
+  vars:
+    repositories:
+      - { url: https://github.com/some/git/repository1.git, dest: "/to/some/download/path/", version: main }
+      - { url: https://github.com/some/git/repository2.git, dest: "/to/some/download/path/", version: main }
   roles:
     - role: bounverif.ros.repositories
 ```

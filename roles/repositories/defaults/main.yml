@@ -1,2 +1,4 @@
-ros_repos_directory: "{{ lookup('ansible.builtin.env', 'ROS_WORKSPACE', default='') }}"
+repositories_source_dir: "{{ lookup('ansible.builtin.env', 'ROS_WORKSPACE', default='') }}"
+repositories_download_dir: "{{ ros_source_dir }}"
 repositories: {}
+repositories_file_path_list: []
