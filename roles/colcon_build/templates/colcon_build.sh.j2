@@ -1,0 +1,8 @@
+colcon build
+  --build-base {{ colcon_build_build_base_dir }}
+  --install-base {{ colcon_build_install_base_dir }}
+  {% if colcon_build_merge_install %}--merge-install{% endif %}
+  {% if colcon_build_symlink_install %}--symlink-install{% endif %}
+  {% if colcon_build_test_result_base %}--test-result-base {{ colcon_build_test_result_base_dir }}{% endif %}
+  {% if colcon_build_continue_on_error %}--continue-on-error{% endif %}
+  {% if colcon_build_use_cmake_args %}--cmake-args {{ colcon_build_cmake_args }}{% endif %}
