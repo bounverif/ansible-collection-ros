@@ -1,0 +1,9 @@
+colcon_build_build_base_dir: ./build
+colcon_build_install_base_dir: ./install
+colcon_build_merge_install: false
+colcon_build_symlink_install: true
+colcon_build_test_result_base: false
+colcon_build_test_result_base_dir: "{{ colcon_build_build_base_dir }}"
+colcon_build_continue_on_error: false
+colcon_build_use_cmake_args: true
+colcon_build_cmake_args: "-DCMAKE_BUILD_TYPE=Release"

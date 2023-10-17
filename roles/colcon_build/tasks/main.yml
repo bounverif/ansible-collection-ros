@@ -1,0 +1,11 @@
+- name: Command Generation from the Template
+  ansible.builtin.set_fact:
+    colcon_build_command: "{{ lookup('ansible.builtin.template', 'templates/colcon_build.sh.j2') | regex_replace('\\s+', ' ') | trim }}"
+
+- name: Colcon Build
+  ansible.builtin.shell:
+    cmd: "source /opt/ros/{{ ros_distro }}/setup.bash && {{ colcon_build_command }}"
+  args:
+    chdir: "{{ ros_workspace }}"
+    executable: /bin/bash
+  changed_when: true
