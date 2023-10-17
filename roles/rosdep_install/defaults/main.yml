@@ -1,1 +1,9 @@
 rosdep_init_path: /etc/ros/rosdep/sources.list.d/20-default.list
+rosdep_install_default_yes: true
+rosdep_install_continue_installing: true
+rosdep_install_select_all_packages: false
+rosdep_install_quiet: false
+rosdep_install_ignore_recursive: false
+rosdep_install_ignore_src: true
+rosdep_install_include_eol_distros: false
+rosdep_install_reinstall: false
