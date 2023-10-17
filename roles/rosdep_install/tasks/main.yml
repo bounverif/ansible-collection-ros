@@ -14,10 +14,6 @@
   ansible.builtin.set_fact:
     rosdep_install_command: "{{ lookup('ansible.builtin.template', 'templates/rosdep_install.sh.j2') | regex_replace('\\s+', ' ') | trim }}"
 
-- name: YUSUF BERK CANDEMIR
-  ansible.builtin.debug:
-    msg: "{{ rosdep_install_command }}"
-
 - name: Rosdep Install
   ansible.builtin.shell:
     cmd: "source /opt/ros/{{ ros_distro }}/setup.bash && {{ rosdep_install_command }}"
