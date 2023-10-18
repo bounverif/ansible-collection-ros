@@ -3,16 +3,20 @@
   ansible.builtin.command:
     cmd: rosdep init
     creates: "{{ rosdep_init_path }}"
-  when: init_rosdep
+  when: rosdep_install_init
 
 - name: Rosdep Update
   ansible.builtin.command:
     cmd: rosdep update
   changed_when: true
 
+- name: Rosdep Install Command Generation
+  ansible.builtin.set_fact:
+    rosdep_install_command: "{{ lookup('ansible.builtin.template', 'templates/rosdep_install.sh.j2') | regex_replace('\\s+', ' ') | trim }}"
+
 - name: Rosdep Install
   ansible.builtin.shell:
-    cmd: "source /opt/ros/{{ ros_distro }}/setup.bash && rosdep install --from-paths . --ignore-src --rosdistro {{ ros_distro }} -r -y"
+    cmd: "source /opt/ros/{{ ros_distro }}/setup.bash && {{ rosdep_install_command }}"
   args:
     executable: /bin/bash
     chdir: "{{ ros_source_dir }}"

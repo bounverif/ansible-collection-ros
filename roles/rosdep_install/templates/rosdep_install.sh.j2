@@ -1,0 +1,11 @@
+rosdep install
+  {% if rosdep_install_default_yes %}--default-yes{% endif %}
+  {% if rosdep_install_continue_installing %}-r{% endif %}
+  {% if rosdep_install_select_all_packages %}-a{% endif %}
+  {% if rosdep_install_quiet %}-q{% endif %}
+  {% if rosdep_install_ignore_recursive %}-n{% endif %}
+  {% if rosdep_install_ignore_src %}--ignore-src{% endif %}
+  --from-paths {{ ros_source_dir }}
+  --rosdistro {{ ros_distro }}
+  {% if rosdep_install_include_eol_distros %}--include-eol-distros{% endif %}
+  {% if rosdep_install_reinstall %}--reinstall{% endif %}

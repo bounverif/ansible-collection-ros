@@ -18,9 +18,16 @@ These variables must be defined according to the usage to use this role. Definit
 | Variable                | Required | Default      | Choices                   | Comments                                 |
 |-------------------------|----------|--------------|---------------------------|------------------------------------------|
 | ros_source_dir          | yes      | `no default` | `directory path`          | A directory name. Rosdep will run under this directory. |
-| rosdep_init_path        | yes      | `/etc/ros/rosdep/sources.list.d/20-default.list` | `file path`          | Indicates which place to initialize rosdep repository list file. |
-| ros_distro              | yes      | `no default` | `string` | Sets Rosdep to run on which ROS distribution.   |
-
+| rosdep_init_path        | no       | `/etc/ros/rosdep/sources.list.d/20-default.list` | `file path`          | Indicates which place to initialize rosdep repository list file. |
+| ros_distro              | yes      | `no default` | `string`                  | Sets Rosdep to run on which ROS distribution.   |
+| rosdep_install_default_yes | no    | `true`       | `bool`                    | Say yes automatically to all install candidates flag, --default-yes. For details see Rosdep documentation. |
+| rosdep_install_continue_installing | no | `true`  | `bool`                    | Continue installing even if an error occurs flag, -r. For details see Rosdep documentation. |
+| rosdep_install_select_all_packages | no | `false` | `bool`                    | Flag -a, select all packages. For details see Rosdep documentation. |
+| rosdep_install_quiet    | no       | `false`      | `bool`                    | Flag -q, quiet mode. For details see Rosdep documentation. |
+| rosdep_install_ignore_recursive | no | `false`    | `bool`                    | Flag -n, ignore recursive dependencies. For details see Rosdep documentation. |
+| rosdep_install_ignore_src | no     | `true`       | `bool`                    | Flag --ignore-src, ignores source file dependencies. For details see Rosdep documentation. |
+| rosdep_install_include_eol_distros | no | `false` | `bool`                    | Flag --include-eol-distros, includes end-of-life ROS distribution for dependency checking. For details see Rosdep documentation. |
+| rosdep_install_reinstall | no      | `false`      | `bool`                    | Flag --reinstall, reinstalls packages even if they are already be installed. For details see Rosdep documentation. |
 
 Dependencies
 ------------
@@ -40,6 +47,12 @@ Assume ROS packages are found in subdirectories of `/tmp/ros/ros_packages`.
   vars:
     ros_source_dir: /tmp/ros/ros_packages/
     ros_distro: humble
+    rosdep_install_default_yes: true
+    rosdep_install_quiet: true
+    rosdep_install_ignore_src: true
+    rosdep_install_include_eol_distros: false
+    rosdep_install_reinstall: false
+    
   roles:
     - role: bounverif.ros.repositories
 ```
