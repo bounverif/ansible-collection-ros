@@ -9,3 +9,4 @@ rosdep install
   --rosdistro {{ ros_distro }}
   {% if rosdep_install_include_eol_distros %}--include-eol-distros{% endif %}
   {% if rosdep_install_reinstall %}--reinstall{% endif %}
+  {% if rosdep_install_dependency_types is defined %}{% for __dependency in rosdep_install_dependency_types %}--dependency-types {{ __dependency }} {% endfor %}{% endif %}

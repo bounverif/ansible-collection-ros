@@ -28,6 +28,7 @@ These variables must be defined according to the usage to use this role. Definit
 | rosdep_install_ignore_src | no     | `true`       | `bool`                    | Flag --ignore-src, ignores source file dependencies. For details see Rosdep documentation. |
 | rosdep_install_include_eol_distros | no | `false` | `bool`                    | Flag --include-eol-distros, includes end-of-life ROS distribution for dependency checking. For details see Rosdep documentation. |
 | rosdep_install_reinstall | no      | `false`      | `bool`                    | Flag --reinstall, reinstalls packages even if they are already be installed. For details see Rosdep documentation. |
+| rosdep_install_dependency_types | no | `list`     | `list`                    | Flag --dependency-types (and -t), applies the options given as string list. For every item in this list it adds another flag and value pair to overall command. If not defined, then the Rosdep installs all except `doc`. For details see Rosdep documentation. |
 
 Dependencies
 ------------
@@ -52,6 +53,14 @@ Assume ROS packages are found in subdirectories of `/tmp/ros/ros_packages`.
     rosdep_install_ignore_src: true
     rosdep_install_include_eol_distros: false
     rosdep_install_reinstall: false
+    rosdep_install_dependency_types:
+      - buildtool
+      - exec
+      - doc
+      - buildtool_export
+      - build_export
+      - build
+      - test
     
   roles:
     - role: bounverif.ros.repositories

@@ -7,3 +7,11 @@ rosdep_install_ignore_recursive: false
 rosdep_install_ignore_src: true
 rosdep_install_include_eol_distros: false
 rosdep_install_reinstall: false
+rosdep_install_dependency_types:
+ - buildtool
+ - exec
+ - doc
+ - buildtool_export
+ - build_export
+ - build
+ - test
