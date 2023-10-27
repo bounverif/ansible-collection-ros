@@ -1,0 +1,24 @@
+- name: Set cuda_toolkit_install_distribution for OpenSuse as fact
+  ansible.builtin.set_fact:
+    cuda_toolkit_install_distribution: >-
+      {{ hostvars[inventory_hostname].ansible_distribution | lower | regex_search('([^\s]+)')  ~
+      hostvars[inventory_hostname].ansible_distribution_version | regex_search('^[^.]*') }}
+
+- name: Set cuda-keyring-file for OpenSuse Leap
+  ansible.builtin.set_fact:
+    cuda_keyring_file_name: cuda-{{ cuda_toolkit_install_distribution }}.repo
+
+- name: Install cuda-keyring for OpenSuse
+  become: true
+  zypper_repository: # noqa: fqcn[action]
+    repo: "{{ [cuda_keyring_url_base, cuda_keyring_file_name] | path_join }}"
+    state: present
+    runrefresh: true
+    auto_import_keys: true
+
+- name: Install cuda-toolkits for OpenSuse
+  become: true
+  zypper: # noqa: fqcn[action]
+    force: true
+    name: "{{ item }}"
+  loop: "{{ cuda_toolkit_install_packages }}"

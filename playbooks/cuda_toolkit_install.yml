@@ -1,0 +1,12 @@
+- name: Test Nvidia Role
+  hosts: localhost
+  connection: local
+
+  vars:
+    cuda_toolkit_install_packages:
+      - cuda-minimal-build-12-3
+
+  tasks:
+    - name: Nvidia Toolkit Install
+      ansible.builtin.include_role:
+        name: bounverif.ros.cuda_toolkit_install

@@ -1,14 +1,15 @@
 ---
-- name: Call set_system_variables.yml
-  ansible.builtin.include_tasks: set_system_variables.yml
+- name: Set CUDA facts
+  ansible.builtin.include_tasks: set_cuda_facts.yml
 
-- name: Call verify.yml
-  ansible.builtin.include_tasks: verify.yml
+- name: Install for Debian
+  ansible.builtin.include_tasks: debian_family_install.yml
+  when: hostvars[inventory_hostname].ansible_os_family == "Debian"
 
-- name: Call install.yml - Debian
-  ansible.builtin.include_tasks: install_debian.yml
-  when: cuda_toolkit_install_verify_system and hostvars[inventory_hostname].ansible_os_family == "Debian"
+- name: Install fo RedHat
+  ansible.builtin.include_tasks: redhat_family_install.yml
+  when: hostvars[inventory_hostname].ansible_os_family == "RedHat"
 
-- name: Call install.yml - Suse
-  ansible.builtin.include_tasks: install_suse.yml
-  when: cuda_toolkit_install_verify_system and hostvars[inventory_hostname].ansible_os_family == "Suse"
+- name: Install fo SUSE
+  ansible.builtin.include_tasks: suse_family_install.yml
+  when: hostvars[inventory_hostname].ansible_os_family == "Suse"
