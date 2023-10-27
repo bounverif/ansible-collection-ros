@@ -3,10 +3,12 @@
     cuda_toolkit_install_distribution: >-
       {{ hostvars[inventory_hostname].ansible_distribution | lower | regex_search('([^\s]+)')  ~
       hostvars[inventory_hostname].ansible_distribution_version | regex_search('^[^.]*') }}
+  when: cuda_toolkit_install_distribution is not defined
 
 - name: Set cuda-keyring-file for OpenSuse Leap
   ansible.builtin.set_fact:
     cuda_keyring_file_name: cuda-{{ cuda_toolkit_install_distribution }}.repo
+  when: cuda_keyring_file_name is not defined
 
 - name: Install cuda-keyring for OpenSuse
   become: true

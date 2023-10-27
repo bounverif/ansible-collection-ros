@@ -3,10 +3,12 @@
     cuda_toolkit_install_distribution: >-
       {{ hostvars[inventory_hostname].ansible_distribution | lower ~
       hostvars[inventory_hostname].ansible_distribution_version | replace('.','') }}
+  when: cuda_toolkit_install_distribution is not defined
 
 - name: Set cuda-keyring-file for Debian
   ansible.builtin.set_fact:
     cuda_keyring_file_name: cuda-keyring_1.1-1_all.deb
+  when: cuda_keyring_file_name is not defined
 
 - name: Install cuda-keyring for Debian
   become: true
