@@ -1,7 +1,7 @@
 - name: Clone Repositories
   ansible.builtin.git:
     repo: "{{ item.url }}"
-    dest: "{{ item.dest }}"
+    dest: "{{ ([ros_source_dir, item.dest] | path_join) }}"
     version: "{{ item.version | default(omit) }}"
     depth: "{{ item.depth | default(omit) }}"
     single_branch: "{{ item.single_branch | default(omit) }}"

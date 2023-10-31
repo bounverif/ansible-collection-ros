@@ -6,4 +6,4 @@ colcon build
   {% if colcon_build_test_result_base %}--test-result-base {{ colcon_build_test_result_base_dir }}{% endif %}
   {% if colcon_build_continue_on_error %}--continue-on-error{% endif %}
   {% if colcon_build_use_cmake_args %}--cmake-args {{ colcon_build_cmake_args }}{% endif %}
-  {% if colcon_build_packages_up_to %}--packages-up-to {% for __dependency in colcon_build_packages_up_to %} {{ __dependency }} {% endfor %}{% endif %}
+  {% if colcon_build_packages_up_to is defined %}--packages-up-to {% for __dependency in colcon_build_packages_up_to %} {{ __dependency }} {% endfor %}{% endif %}
