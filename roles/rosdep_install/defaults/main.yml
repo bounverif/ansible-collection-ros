@@ -1,3 +1,4 @@
+rosdep_install_init: true
 rosdep_init_path: /etc/ros/rosdep/sources.list.d/20-default.list
 rosdep_install_default_yes: true
 rosdep_install_continue_installing: true
