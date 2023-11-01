@@ -1,2 +1,3 @@
 ros2_install_packages:
  - ros-{{ ros_distro }}-ros-base
+ - ros-dev-tools

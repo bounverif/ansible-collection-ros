@@ -1,6 +1,6 @@
 - name: Load Repos Files
   ansible.builtin.include_vars:
-    file: "../../../{{ collection_name }}/files/{{ item }}"
+    file: "{{ ([ '..', '..', '..', collection_name, files, item ] | path_join ) }}"
     hash_behaviour: "merge"
     name: repositories
   loop: "{{ repositories_files }}"
