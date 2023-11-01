@@ -8,13 +8,11 @@ Reads repos file contents similar to existing VCS tool, downloads the repositori
 Requirements
 ------------
 
-A valid path to a directory in which includes files written in `repos` format, or a valid list constructed by dictionaries which have `ansible.builtin.git` module's parameters. 
+A valid path to a directory in which includes files written in `repos` format no matter what is the file name, or a valid list constructed by dictionaries which have `ansible.builtin.git` module's parameters. 
 
-For file reading define `repositories_source_dir` which is a string of a relative or absolute directory path, that directory can also be defined by defining `ROS_WORKSPACE` environment variable. Define `repositories_files` that is a list of strings constructed by file names. Do not define any `repositories` named list or variable. Define `repositories_download_dir` as a directory, if the repository is not defined a specific `dest` value, then the files will be downloaded onto `repositories_download_dir`.
+For file reading define `repositories_files` which is a string of a relative or absolute directory path. Define `repositories_files` that is a list of strings constructed by only file names. The repository will read `<collection_name>/files/` directory in the collection. Do not define any `repositories` named list or variable. Until then, it will work same as the VCS tool. Also define `collection_name` as the real collection name.
 
 For variable reading define a `repositories` list variable which consists of dictionaries that have parameters of `ansible.builtin.git` module. Do not define the variable `repositories_files`.
-
-Additionally, for all cases, do not define a variable named `repositories_file_path_list`, this is a meta-variable reserved for calculations.
 
 Role Variables
 --------------
@@ -23,10 +21,10 @@ These variables must be defined according to the usage to use this role. Definit
 
 | Variable                | Required | Default      | Choices                   | Comments                                 |
 |-------------------------|----------|--------------|---------------------------|------------------------------------------|
-| repositories_source_dir         | yes      | `no default` | `directory path`          | A directory name. Required when read_repositories_from_file is set `true`. |
-| repositories_download_dir            | yes      | `no default` | `directory path`          | Indicates a prefix path where to download repositories, which will be joined with the path on `key` value on repos file. Used when `dest` parameter on git parameter is not set. |
+| ros_source_dir          | yes      | `no default` | `directory path`          | A directory name. Required when read_repositories_from_file is set `true`. |
 | repositories            | yes      | `no default` | `list of dictionaries`    | List of dictionaries with fields named as git builtin. Do not define if `repositories_files` set. |
 | repositories_files | yes      | `no default` | `list of file names`      | Names of files will be read. If defined, then the role will read files instead of `repositories` list.|
+| collection_name         | yes      | `no default` | `name of collection`      | Name of your own collection. |
 
 
 Dependencies
@@ -45,8 +43,7 @@ An example playbook using file read feature, runs this role on localhost. For th
   hosts: localhost
   connection: local
   vars:
-    repositories_source_dir: "/tmp/ros/examples/sample_repos_file/" 
-    repositories_download_dir: "/tmp/ros/src"
+    ros_source_dir: "/tmp/ros/examples/sample_repos_file/" 
     repositories_files:
       - file1.repos
       - file2.yaml
@@ -61,8 +58,8 @@ An example playbook using file read feature, runs this role on localhost. For th
   connection: local
   vars:
     repositories:
-      - { url: https://github.com/some/git/repository1.git, dest: "/to/some/download/path/", version: main }
-      - { url: https://github.com/some/git/repository2.git, dest: "/to/some/download/path/", version: main }
+      - { url: https://github.com/some/git/repository1.git, dest: "to/some/download/path/", version: main }
+      - { url: https://github.com/some/git/repository2.git, dest: "to/some/download/path/", version: main }
   roles:
     - role: bounverif.ros.repositories
 ```
