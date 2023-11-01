@@ -1,0 +1,13 @@
+- name: Test ROS 2 Install Role
+  hosts: localhost
+  connection: local
+
+  vars:
+    ros_distro: humble
+    ros2_install_packages:
+      - ros-humble-ros-base
+
+  tasks:
+    - name: ROS 2 Install
+      ansible.builtin.include_role:
+        name: bounverif.ros.ros2_install
