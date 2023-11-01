@@ -1,4 +1,2 @@
-package_names:
- - ros-humble-desktop
- - ros-humble-ros-base
- - ros-dev-tools
+ros2_install_packages:
+ - ros-{{ ros_distro }}-ros-base
