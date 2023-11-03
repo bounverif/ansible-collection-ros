@@ -1,7 +1,7 @@
 namespace: bounverif
 name: ros
 version: 0.1.0
-description: Ansible roles for common ROS tasks 
+description: Ansible roles for common ROS tasks
 readme: README.md
 repository: 'https://github.com/bounverif/ansible-collection-ros/'
 issues: 'https://github.com/bounverif/ansible-collection-ros/issues'

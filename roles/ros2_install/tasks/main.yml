@@ -1,7 +1,7 @@
 ---
 - name: Install for {{ ansible_os_family }} variables
   ansible.builtin.include_vars: "{{ ansible_os_family | lower }}_family.yml"
-  
+
 - name: Install for {{ ansible_os_family }} tasks
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}_family_install.yml"
 
