@@ -1,0 +1,2 @@
+- name: Install RedHat variables
+  ansible.builtin.include_vars: redhat_family.yml

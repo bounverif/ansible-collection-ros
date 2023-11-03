@@ -1,0 +1,13 @@
+- name: Add ROS source directive to .bashrc
+  ansible.builtin.lineinfile:
+    dest: ~/.bashrc
+    line: source /opt/ros/{{ ros_distro }}/setup.bash
+    state: present
+    create: true
+    mode: '644'
+
+- name: Rosdep Init
+  become: true
+  ansible.builtin.command:
+    cmd: rosdep init
+    creates: /etc/ros/rosdep/sources.list.d/20-default.list

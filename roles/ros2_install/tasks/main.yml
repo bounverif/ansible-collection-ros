@@ -1,12 +1,10 @@
 ---
-- name: Install for Debian
-  ansible.builtin.include_tasks: debian_family_install.yml
-  when: hostvars[inventory_hostname].ansible_os_family == "Debian"
+- name: Install for {{ ansible_os_family }} variables
+  ansible.builtin.include_vars: "{{ ansible_os_family | lower }}_family.yml"
+  
+- name: Install for {{ ansible_os_family }} tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}_family_install.yml"
 
-- name: Install fo RedHat
-  ansible.builtin.include_tasks: redhat_family_install.yml
-  when: hostvars[inventory_hostname].ansible_os_family == "RedHat"
-
-- name: Install fo SUSE
-  ansible.builtin.include_tasks: suse_family_install.yml
-  when: hostvars[inventory_hostname].ansible_os_family == "Suse"
+- name: Setup workspace
+  ansible.builtin.include_tasks: workspace_setup.yml
+  when: ros2_install_workspace_setup
