@@ -1,1 +1,3 @@
+ros_workspace: "/tmp/ros_workspace"
+ros_source_dir: "{{ ros_workspace }}/src"
 repositories: {}
