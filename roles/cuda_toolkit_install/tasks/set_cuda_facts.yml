@@ -2,9 +2,9 @@
 - name: Set architecture for Amd64
   ansible.builtin.set_fact:
     cuda_toolkit_install_arch: "x86_64"
-  when: hostvars[inventory_hostname].ansible_machine == 'x86_64' and cuda_toolkit_install_arch is not defined
+  when: ansible_machine == 'x86_64' and cuda_toolkit_install_arch is not defined
 
 - name: Set architecture for Arm64
   ansible.builtin.set_fact:
     cuda_toolkit_install_arch: "sbsa"
-  when: hostvars[inventory_hostname].ansible_machine == 'aarch64' and cuda_toolkit_install_arch is not defined
+  when: ansible_machine == 'aarch64' and cuda_toolkit_install_arch is not defined
