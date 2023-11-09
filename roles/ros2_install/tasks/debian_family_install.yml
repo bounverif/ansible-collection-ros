@@ -1,12 +1,12 @@
 - name: Setup ROS 2 keys
   ansible.builtin.apt_key:
-    url: "{{ ros2_gpg_key_url }}"
+    url: "{{ ros2_install_gpg_key_url }}"
     state: present
   become: true
 
 - name: Add the Repository to Sources List
   ansible.builtin.apt_repository:
-    repo: "deb {{ ros_repository_url }} {{ ansible_distribution_release }} main"
+    repo: "deb {{ ros2_install_repository_url }} {{ ansible_distribution_release }} main"
     state: present
     update_cache: true
   become: true
