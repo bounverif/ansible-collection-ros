@@ -1,0 +1,10 @@
+packages_target_query_table:
+  ubuntu_jammy: '[].[ubuntu.jammy || ubuntu."*" || ubuntu]'
+  ubuntu_focal: '[].[ubuntu.focal || ubuntu."*" || ubuntu]'
+  debian_bookworm: '[].[debian.bookworm || debian."*" || debian]'
+  debian_bullseye: '[].[debian.bullseye || debian."*" || debian]'
+  debian_buster: '[].[debian.buster || debian."*" || debian]'
+  debian_sid: '[].[debian.sid || debian."*" || debian]'
+  fedora: '[].fedora'
+  redhat: '[].rhel'
+

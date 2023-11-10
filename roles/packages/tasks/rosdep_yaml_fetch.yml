@@ -1,0 +1,33 @@
+- name: Create temporary rosdep directory
+  ansible.builtin.tempfile:
+    state: directory
+    prefix: rosdep.
+  register: rosdep_dir
+
+- name: Fetch rosdep/base keys
+  ansible.builtin.get_url:
+    url: "{{ packages_rosdep_base_keys_url }}/base.yaml"
+    dest: "{{ rosdep_dir.path }}/base.yaml"
+    mode: '0644'
+    validate_certs: false
+
+- name: Fetch rosdep/python keys
+  ansible.builtin.get_url:
+    url: "{{ packages_rosdep_base_keys_url }}/python.yaml"
+    dest: "{{ rosdep_dir.path }}/python.yaml"
+    mode: '0644'
+
+- name: Include Rosdep base keys
+  ansible.builtin.include_vars:
+    file: "{{ rosdep_dir.path }}/base.yaml"
+    name: rosdep_base_keys
+
+- name: Include Rosdep python keys
+  ansible.builtin.include_vars:
+    file: "{{ rosdep_dir.path }}/python.yaml"
+    name: rosdep_python_keys
+
+- name: Remove temporary rosdep directory
+  ansible.builtin.file:
+    path: "{{ rosdep_dir.path }}"
+    state: absent

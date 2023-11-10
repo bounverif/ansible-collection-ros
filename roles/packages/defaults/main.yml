@@ -1,0 +1,26 @@
+
+packages_rosdep_keys: []
+packages_rosdep_base_keys_url: https://raw.githubusercontent.com/ros/rosdistro/master/rosdep
+packages_from_path: "{{ ros_source_dir }}"
+
+packages_depend: []
+packages_build_depend: []
+packages_buildtool_depend: []
+packages_build_export_depend: []
+packages_buildtool_export_depend: []
+packages_exec_depend: []
+packages_test_depend: []
+packages_doc_depend: []
+
+packages_dependency_keys: []
+
+packages_system_dependencies: []
+packages_python_dependencies: []
+
+packages_dependency_types:
+  - build_depend
+  - buildtool_depend
+  - build_export_depend
+  - buildtool_export_depend
+  - exec_depend
+  - test_depend

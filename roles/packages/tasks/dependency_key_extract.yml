@@ -1,0 +1,59 @@
+- name: Find package.xml files
+  ansible.builtin.find:
+    paths: "{{ packages_from_path }}"
+    patterns: 'package\.xml'
+    recurse: true
+    use_regex: true
+  register: _find_package_xml_result
+
+- name: Set package.xml paths
+  ansible.builtin.set_fact:
+    _packages_xml_paths: "{{ _find_package_xml_result.files | map(attribute='path') | list }}"
+
+- name: Set package dictionaries
+  ansible.builtin.set_fact:
+    _packages_dicts: >-
+      {{
+        query('ansible.builtin.file', *_packages_xml_paths) | 
+        map('ansible.utils.from_xml') | 
+        map('from_yaml') |
+        map(attribute='package')
+      }}
+
+- name: Set package.xml paths
+  ansible.builtin.set_fact:
+    _packages_dependency_keys_raw: []
+
+- name: Obtain all package dependency keys
+  ansible.builtin.set_fact:
+    _packages_dependency_keys_raw: >-
+      {{
+        _packages_dependency_keys_raw |
+        union(
+          _packages_dicts |
+          selectattr(item, 'defined') |
+          map(attribute=item) |
+          flatten
+        )
+      }}
+  loop: "{{ packages_dependency_types_all }}"
+
+- name: Check ROS version condition if exists
+  ansible.builtin.set_fact:
+    _packages_dependency_keys_ros_version_checked: >-
+      {{
+        _packages_dependency_keys_raw |
+        selectattr('@condition', 'defined') |
+        selectattr('@condition', 'equalto', '$ROS_VERSION == ' + ros_version) |
+        map(attribute='#text') 
+      }}
+
+- name: Check ROS version condition if exists
+  ansible.builtin.set_fact:
+    packages_dependency_keys: >-
+      {{ 
+        _packages_dependency_keys_raw | 
+        select('string') | 
+        union(_packages_dependency_keys_ros_version_checked) |
+        unique
+      }}

@@ -1,0 +1,13 @@
+- name: Set Rosdep distro from the distribution
+  ansible.builtin.set_fact:
+    packages_target_query: >-
+      {{ 
+        packages_target_query_table[
+          (ansible_distribution | lower) + '_' + ansible_distribution_release 
+        ] 
+      }}
+    cacheable: true
+
+- name: Always add generic dependecies to the list of keys
+  ansible.builtin.set_fact:
+    packages_dependency_types_all: "{{ packages_dependency_types + ['depend'] | unique }}"

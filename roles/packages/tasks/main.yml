@@ -1,0 +1,15 @@
+- name: Gather ROS facts
+  ansible.builtin.include_role:
+    name: bounverif.ros.gather_facts
+
+- name: Setup tasks
+  ansible.builtin.include_tasks: setup.yml
+
+- name: Fetch and load rosdep yaml files
+  ansible.builtin.include_tasks: rosdep_yaml_fetch.yml
+
+- name: Extract dependency keys from package.xml files
+  ansible.builtin.include_tasks: dependency_key_extract.yml
+
+- name: Install packages using dependency keys
+  ansible.builtin.include_tasks: dependency_key_install.yml

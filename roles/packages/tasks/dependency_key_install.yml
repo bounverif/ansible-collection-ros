@@ -1,0 +1,21 @@
+- name: Find system dependencies using keys
+  ansible.builtin.set_fact:
+    packages_system_dependencies: >-
+      {{ 
+        packages_system_dependencies | 
+        union(
+          packages_dependency_keys |
+          intersect(rosdep_base_keys) |
+          map('extract', rosdep_base_keys) |
+          json_query(packages_target_query) |
+          flatten
+        )
+      }}
+
+- name: Install system packages
+  ansible.builtin.package:
+    name: "{{ packages_system_dependencies }}"
+
+- name: Install python packages
+  ansible.builtin.pip:
+    name: "{{ packages_python_dependencies }}"
