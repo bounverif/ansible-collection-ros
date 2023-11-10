@@ -1,6 +1,8 @@
 ros_workspace: "/tmp/ros_workspace"
 ros_source_dir: "{{ ros_workspace }}/src"
 
+repositories: {}
+
 repositories_dirs: []
 repositories_files: []
 repositories_source_dir: "{{ ros_source_dir}}"
