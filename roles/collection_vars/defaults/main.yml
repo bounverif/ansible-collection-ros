@@ -1,0 +1,2 @@
+collection_vars_main_filename: "{{ playbook_dir | dirname }}/vars/main.yml"
+collection_vars_main_dirname: "{{ playbook_dir | dirname }}/vars/main"
