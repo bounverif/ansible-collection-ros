@@ -1,9 +1,9 @@
 - name: Load vars/main.yml file
   ansible.builtin.include_vars:
-      file: collection_vars_main_filename
-  when: collection_vars_main_filename is file
+      file: "{{ collection_vars_main_filename }}"
+  when: "{{ collection_vars_main_filename is file }}"
 
 - name: Load vars/main/ directory
   ansible.builtin.include_vars:
-    dir: collection_vars_main_dirname
-  when: collection_vars_main_filename is not file and collection_vars_main_dirname is directory
+    dir: "{{ collection_vars_main_dirname }}"
+  when: "{{ collection_vars_main_filename is not file and collection_vars_main_dirname is directory }}"
