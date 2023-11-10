@@ -1,7 +1,43 @@
-- name: Install Repositories - From File
-  ansible.builtin.include_tasks: from_file.yml
-  when: repositories_files is defined
+- name: Load repos files from directories
+  ansible.builtin.include_vars:
+    directory: "{{ item }}"
+    hash_behaviour: "merge"
+    name: repositories
+    extensions: ["repos", "repos.json", "repos.yaml", "repos.yml"]
+  loop: "{{ repositories_dirs }}"
 
-- name: Install Repositories - From Variable
-  ansible.builtin.include_tasks: from_variable.yml
-  when: repositories_files is undefined
+- name: Load individual repos files
+  ansible.builtin.include_vars:
+    file: "{{ item }}"
+    hash_behaviour: "merge"
+    name: repositories
+  loop: "{{ repositories_files }}"
+
+- name: Clone Repositories
+  ansible.builtin.git:
+    repo: "{{ item.value.repo | default(item.value.url) }}"
+    dest: "{{ item.value.dest | default(([repositories_source_dir, item.key] | path_join)) }}"
+    version: "{{ item.value.version | default(omit) }}"
+    depth: "{{ item.value.depth | default(omit) }}"
+    single_branch: "{{ item.value.single_branch | default(omit) }}"
+    update: "{{ item.value.update | bool | default(omit) }}"
+    accept_hostkey: "{{ item.value.accept_hostkey | default(omit) }}"
+    accept_newhostkey: "{{ item.value.accept_newhostkey | default(omit) }}"
+    archive: "{{ item.value.archive | default(omit) }}"
+    bare: "{{ item.value.bare | default(omit) }}"
+    clone: "{{ item.value.clone | default(omit) }}"
+    executable: "{{ item.value.executable | default(omit) }}"
+    force: "{{ item.value.force | default(omit) }}"
+    gpg_whitelist: "{{ item.value.gpg_whitelist | default(omit) }}"
+    key_file: "{{ item.value.key_file | default(omit) }}"
+    recursive: "{{ item.value.recursive | default(omit) }}"
+    reference: "{{ item.value.reference | default(omit) }}"
+    refspec: "{{ item.value.refspec | default(omit) }}"
+    remote: "{{ item.value.remote | default(omit) }}"
+    separate_git_dir: "{{ item.value.separate_git_dir | default(omit) }}"
+    ssh_opts: "{{ item.value.ssh_opts | default(omit) }}"
+    track_submodules: "{{ item.value.track_submodules | default(omit) }}"
+    umask: "{{ item.value.umask | default(omit) }}"
+    verify_commit: "{{ item.value.verify_commit | default(omit) }}"
+  loop: "{{ repositories | dict2items }}"
+  when: repositories is defined and repositories | length > 0
