@@ -1,30 +1,11 @@
-- name: Set cuda_toolkit_install_distribution for Debian as fact
-  ansible.builtin.set_fact:
-    cuda_toolkit_install_distribution: >-
-      {{ hostvars[inventory_hostname].ansible_distribution | lower ~
-      hostvars[inventory_hostname].ansible_distribution_version | replace('.','') }}
-  when: cuda_toolkit_install_distribution is not defined
-
-- name: Set cuda-keyring-file for Debian
-  ansible.builtin.set_fact:
-    cuda_keyring_file_name: cuda-keyring_1.1-1_all.deb
-  when: cuda_keyring_file_name is not defined
-
-- name: Install cuda-keyring for Debian
+- name: Install cuda-keyring for Debian family
   become: true
   ansible.builtin.apt:
-    deb: '{{ cuda_keyring_url_base }}/{{ cuda_keyring_file_name }}'
+    deb: '{{ cuda_toolkit_install_debian_family_keyring_file_url }}'
 
-- name: Update apt-get
+- name: Install packages via apt
   become: true
   ansible.builtin.apt:
+    name: "{{ cuda_toolkit_install_packages }}"
+    state: present
     update_cache: true
-    force_apt_get: true
-    cache_valid_time: 0
-
-- name: Install cuda-toolkits for Debian
-  become: true
-  ansible.builtin.apt:
-    force_apt_get: true
-    name: "{{ item }}"
-  loop: "{{ cuda_toolkit_install_packages }}"

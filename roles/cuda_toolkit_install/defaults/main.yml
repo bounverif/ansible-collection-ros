@@ -1,6 +1,9 @@
-cuda_toolkit_install_verify_system: false
-
-cuda_keyring_url_base: >-
-  https://developer.download.nvidia.com/compute/cuda/repos/{{ cuda_toolkit_install_distribution }}/{{ cuda_toolkit_install_arch }}
-
 cuda_toolkit_install_packages: []
+cuda_toolkit_install_arch: "{{ lookup('ansible.builtin.env', 'NVARCH', default='x86_64') }}"
+
+cuda_toolkit_install_debian_family_keyring_filename: cuda-keyring_1.1-1_all.deb
+cuda_toolkit_install_debian_family_keyring_file_url: >-
+  https://developer.download.nvidia.com/compute/cuda/repos/{{ cuda_toolkit_install_distribution }}/{{ cuda_toolkit_install_arch }}/{{ cuda_toolkit_install_debian_family_keyring_filename }}
+
+cuda_toolkit_install_redhat_family_repo_baseurl: >-
+  https://developer.download.nvidia.com/compute/cuda/repos/{{ cuda_toolkit_install_distribution }}/{{ cuda_toolkit_install_arch }}/cuda-{{ cuda_toolkit_install_distribution }}.repo

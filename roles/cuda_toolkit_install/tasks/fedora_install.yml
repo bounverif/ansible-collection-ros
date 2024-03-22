@@ -1,0 +1,8 @@
+- name: Set cuda_toolkit_install_distribution for Debian as fact
+  ansible.builtin.set_fact:
+    cuda_toolkit_install_distribution: >-
+      {{ 'fedora' ~ ansible_distribution_major_version }}
+  when: cuda_toolkit_install_distribution is not defined
+
+- name: Install for {{ cuda_toolkit_install_distribution }}
+  ansible.builtin.include_tasks: "redhat_family_install.yml"

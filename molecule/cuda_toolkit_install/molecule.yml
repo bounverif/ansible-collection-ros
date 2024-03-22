@@ -1,0 +1,19 @@
+---
+driver:
+  name: podman
+platforms:
+  - name: molecule-ubuntu2204
+    image: docker.io/geerlingguy/docker-ubuntu2204-ansible
+    pre_build_image: true
+  - name: molecule-debian12
+    image: docker.io/geerlingguy/docker-debian12-ansible
+    pre_build_image: true
+  - name: molecule-fedora39
+    image: docker.io/geerlingguy/docker-fedora39-ansible
+    pre_build_image: true
+  - name: molecule-rockylinux8
+    image: docker.io/geerlingguy/docker-rockylinux8-ansible
+    pre_build_image: true
+  - name: molecule-rockylinux9
+    image: docker.io/geerlingguy/docker-rockylinux9-ansible
+    pre_build_image: true

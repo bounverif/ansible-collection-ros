@@ -1,0 +1,12 @@
+- name: Download the CUDA repository file
+  ansible.builtin.get_url:
+    url: '{{ cuda_toolkit_install_redhat_family_repo_baseurl }}'
+    dest: /etc/yum.repos.d/cuda-{{ cuda_toolkit_install_distribution }}.repo
+    mode: '0644'
+
+- name: Install packages via yum
+  become: true
+  ansible.builtin.yum:
+    name: "{{ cuda_toolkit_install_packages }}"
+    state: present
+    update_cache: true

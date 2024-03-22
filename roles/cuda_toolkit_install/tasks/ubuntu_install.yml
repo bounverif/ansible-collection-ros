@@ -1,0 +1,8 @@
+- name: Set cuda_toolkit_install_distribution for Debian as fact
+  ansible.builtin.set_fact:
+    cuda_toolkit_install_distribution: >-
+      {{ 'ubuntu' ~ ansible_distribution_version | replace('.','') }}
+  when: cuda_toolkit_install_distribution is not defined
+
+- name: Install for {{ cuda_toolkit_install_distribution }}
+  ansible.builtin.include_tasks: "debian_family_install.yml"
